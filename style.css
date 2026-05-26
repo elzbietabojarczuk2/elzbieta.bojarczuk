@@ -1686,9 +1686,18 @@ html { -webkit-tap-highlight-color: rgba(171, 61, 27, 0.18); }
     padding-right: max(1.25rem, env(safe-area-inset-right));
   }
   .nav {
+    gap: 0.75rem;
     padding-left: max(1.5rem, env(safe-area-inset-left));
     padding-right: max(1.5rem, env(safe-area-inset-right));
   }
+  .nav-logo {
+    font-size: 1.1rem;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .nav-toggle { flex-shrink: 0; }
   .nav-links {
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
