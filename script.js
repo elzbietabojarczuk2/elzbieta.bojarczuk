@@ -221,3 +221,101 @@ if (toTop) {
     window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
   });
 }
+
+/* ── Scroll progress bar ── */
+const progressBar = document.createElement('div');
+progressBar.className = 'scroll-progress';
+document.body.appendChild(progressBar);
+
+const updateProgress = () => {
+  const doc = document.documentElement;
+  const pct = (window.scrollY / Math.max(doc.scrollHeight - doc.clientHeight, 1)) * 100;
+  progressBar.style.width = `${Math.min(pct, 100)}%`;
+};
+window.addEventListener('scroll', updateProgress, { passive: true });
+updateProgress();
+
+/* ── Custom cursor dot ── */
+const cursorDot = document.createElement('div');
+cursorDot.className = 'cursor-dot';
+document.body.appendChild(cursorDot);
+
+let dotX = 0, dotY = 0, mouseX = 0, mouseY = 0;
+document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; }, { passive: true });
+
+(function animateDot() {
+  dotX += (mouseX - dotX) * 0.12;
+  dotY += (mouseY - dotY) * 0.12;
+  cursorDot.style.transform = `translate(${dotX}px, ${dotY}px)`;
+  requestAnimationFrame(animateDot);
+})();
+
+document.querySelectorAll('a, button, [role="button"], .highlight-card, .impact-card, .mentor-card, .pub-item, .timeline-item, .stat-card, .principle-card, .audience-card, .phase-card').forEach(el => {
+  el.addEventListener('mouseenter', () => cursorDot.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => cursorDot.classList.remove('cursor-hover'));
+});
+
+/* ── Sparkle particles ── */
+const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+function spawnSparkles(x, y, count, isClick) {
+  if (reduceMotionQuery.matches) return;
+  const colors = ['#435155', '#a7b3aa', '#fbfaf6', '#8c9fa8', '#6b7f86'];
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('span');
+    p.className = 'sparkle-particle';
+    const angle = (i / count) * 360 + Math.random() * (360 / count);
+    const dist  = isClick ? 55 + Math.random() * 75 : 18 + Math.random() * 22;
+    const size  = isClick ? 4 + Math.random() * 7   : 2 + Math.random() * 3;
+    p.style.cssText =
+      `left:${x}px;top:${y}px;width:${size}px;height:${size}px;` +
+      `background:${colors[Math.floor(Math.random() * colors.length)]};` +
+      `--dx:${(Math.cos(angle * Math.PI / 180) * dist).toFixed(1)}px;` +
+      `--dy:${(Math.sin(angle * Math.PI / 180) * dist).toFixed(1)}px;` +
+      `animation-duration:${isClick ? 0.85 : 0.5}s;`;
+    document.body.appendChild(p);
+    p.addEventListener('animationend', () => p.remove(), { once: true });
+  }
+}
+
+document.querySelectorAll('.btn-primary, .pdf-download, .btn-outline, .btn-invert').forEach(btn => {
+  btn.addEventListener('mouseenter', () => {
+    const r = btn.getBoundingClientRect();
+    spawnSparkles(r.left + r.width / 2, r.top + r.height / 2, 5, false);
+  });
+  btn.addEventListener('click', e => spawnSparkles(e.clientX, e.clientY, 20, true));
+});
+
+/* ── Magnetic CTA buttons ── */
+document.querySelectorAll('.btn-primary, .pdf-download').forEach(btn => {
+  let raf = null;
+  btn.addEventListener('mousemove', e => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      const r = btn.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width  / 2) * 0.18;
+      const y = (e.clientY - r.top  - r.height / 2) * 0.18;
+      btn.style.transform = `translate(${x}px, ${y}px) translateY(-2px)`;
+      raf = null;
+    });
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transition = 'transform 0.45s var(--ease-smooth)';
+    btn.style.transform  = '';
+    setTimeout(() => (btn.style.transition = ''), 450);
+  });
+});
+
+/* ── Ripple on click ── */
+document.querySelectorAll('.btn-primary, .btn-outline, .pdf-download, .btn-invert').forEach(btn => {
+  btn.style.overflow = 'hidden';
+  btn.addEventListener('click', e => {
+    const r    = btn.getBoundingClientRect();
+    const size = Math.max(r.width, r.height);
+    const rpl  = document.createElement('span');
+    rpl.className = 'ripple';
+    rpl.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX - r.left - size / 2}px;top:${e.clientY - r.top - size / 2}px;`;
+    btn.appendChild(rpl);
+    rpl.addEventListener('animationend', () => rpl.remove(), { once: true });
+  });
+});
