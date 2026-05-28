@@ -740,13 +740,12 @@ button { font-family: inherit; }
   border-radius: var(--r-sm);
   position: relative;
   min-height: 56px;
-  transition: background 0.25s var(--ease-smooth), border-color 0.25s, transform 0.25s var(--ease-smooth);
+  transition: background 0.25s var(--ease-smooth), border-color 0.25s;
 }
 .pdf-download:hover,
 .pdf-download:focus-visible {
   background: var(--c-narragansett);
   border-color: var(--c-narragansett);
-  transform: translateY(-2px);
 }
 
 .pdf-download-icon {
