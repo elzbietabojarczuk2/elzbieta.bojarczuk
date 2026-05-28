@@ -197,6 +197,19 @@ if (newsletterForm && signupModal) {
   });
 }
 
+/* ── BibTeX copy-to-clipboard ── */
+document.querySelectorAll('.cite-copy-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const pre = document.getElementById(btn.dataset.target);
+    if (!pre) return;
+    navigator.clipboard.writeText(pre.textContent.trim()).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  });
+});
+
 /* ── Back to top ── */
 const toTop = document.getElementById('to-top');
 if (toTop) {

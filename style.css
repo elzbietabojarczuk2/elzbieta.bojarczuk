@@ -1017,6 +1017,17 @@ button { font-family: inherit; }
   color: var(--c-bg);
 }
 
+.skill-subheading {
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
 .education-list {
   display: flex;
   flex-direction: column;
@@ -1213,6 +1224,18 @@ button { font-family: inherit; }
   margin-top: 0.3rem;
 }
 .case-card p { font-size: 0.9375rem; color: var(--c-muted); line-height: 1.65; }
+.case-more {
+  display: inline-block;
+  margin-top: 1rem;
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--c-accent);
+  text-decoration: none;
+}
+.case-more:hover { text-decoration: underline; }
+
 .case-chips {
   display: flex;
   flex-wrap: wrap;
@@ -1307,6 +1330,14 @@ button { font-family: inherit; }
   margin-bottom: 0.6rem;
 }
 .impact-callout p { color: var(--c-ink-soft); line-height: 1.7; max-width: 52rem; }
+.impact-a11y-note {
+  margin-top: 1rem;
+  font-family: var(--ff-mono);
+  font-size: 0.78rem;
+  color: var(--c-muted);
+}
+.impact-a11y-note a { color: var(--c-accent); text-decoration: none; }
+.impact-a11y-note a:hover { text-decoration: underline; }
 
 /* ══ RECOGNITION ═════════════════════════ */
 
@@ -1450,6 +1481,26 @@ a.rec-card:hover, a.rec-card:focus-visible { border-color: var(--c-accent); tran
   color: var(--c-faint);
   margin-top: 0.875rem;
 }
+.cite-pre-wrap { position: relative; }
+.cite-copy-btn {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--c-bg);
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: var(--r-sm);
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.cite-copy-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.5); }
+.cite-copy-btn.copied { color: var(--c-accent); border-color: var(--c-accent); }
 
 /* ══ MENTORSHIP ══════════════════════════ */
 
